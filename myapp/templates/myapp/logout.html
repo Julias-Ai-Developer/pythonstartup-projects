@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logout - RecordLite</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+    </style>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "IBM Plex Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 500;
+        font-style: normal;
+        height: 100vh;
+        display: flex;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
+
+      .container {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+      }
+
+      .logout-section {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        padding: 40px;
+      }
+
+      .logout-content {
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      .logout-title {
+        font-size: 32px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .logout-subtitle {
+        color: #999;
+        font-size: 14px;
+        margin-bottom: 40px;
+        line-height: 1.5;
+      }
+
+      .logout-message {
+        background: #e8f5e8;
+        border: 1px solid #4caf50;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+        color: #2e7d32;
+        font-size: 16px;
+      }
+
+      .icon {
+        width: 80px;
+        height: 80px;
+        background: #ff6b35;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px;
+        color: white;
+        font-size: 32px;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .primary-button {
+        flex: 1;
+        padding: 15px;
+        background: #ff6b35;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .primary-button:hover {
+        background: #e55a2b;
+      }
+
+      .secondary-button {
+        flex: 1;
+        padding: 15px;
+        background: white;
+        color: #ff6b35;
+        border: 2px solid #ff6b35;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .secondary-button:hover {
+        background: #ff6b35;
+        color: white;
+      }
+
+      .logout-info {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .logout-info h3 {
+        color: #333;
+        font-size: 16px;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+
+      .logout-info p {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+      }
+
+      .security-tips {
+        color: #666;
+        font-size: 12px;
+        line-height: 1.4;
+        text-align: left;
+      }
+
+      .security-tips ul {
+        padding-left: 20px;
+        margin-top: 10px;
+      }
+
+      .security-tips li {
+        margin-bottom: 5px;
+      }
+
+      .countdown {
+        color: #ff6b35;
+        font-weight: 600;
+        font-size: 18px;
+        margin: 20px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .footer-links a {
+        color: #999;
+        text-decoration: underline;
+        font-size: 14px;
+      }
+
+      .footer-links a:hover {
+        color: #666;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+        }
+
+        .logout-section {
+          flex: none;
+          height: 100vh;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logout-section">
+        <div class="logout-content">
+          <div class="icon">👋</div>
+          
+          <h1 class="logout-title">You've been logged out</h1>
+          <p class="logout-subtitle">
+            Thank you for using RecordLite. Your session has ended securely.
+          </p>
+
+          <div class="logout-message">
+            You have successfully logged out of your RecordLite account.
+          </div>
+
+          <div class="logout-info">
+            <h3>Session Summary</h3>
+            <p><strong>Last Login:</strong> <span id="loginTime">Today at 2:30 PM</span></p>
+            <p><strong>Session Duration:</strong> <span id="sessionDuration">2 hours 15 minutes</span></p>
+            <p><strong>Records Accessed:</strong> <span id="recordsAccessed">12</span></p>
+          </div>
+
+          <div class="button-group">
+            <button class="primary-button" onclick="loginAgain()">
+              Log In Again
+            </button>
+            <button class="secondary-button" onclick="goHome()">
+              Go to Homepage
+            </button>
+          </div>
+
+          <div class="countdown" id="countdown">
+            Redirecting to login in <span id="timer">30</span> seconds
+          </div>
+
+          <div class="logout-info">
+            <div class="security-tips">
+              <h3>Security Tips</h3>
+              <ul>
+                <li>Always log out from shared or public computers</li>
+                <li>Clear your browser cache if using a public device</li>
+                <li>Keep your password secure and don't share it</li>
+                <li>Enable two-factor authentication for extra security</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <a href="#" onclick="showSupport()">Contact Support</a>
+            <a href="#" onclick="showPrivacy()">Privacy Policy</a>
+            <a href="#" onclick="showTerms()">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Simulate session data
+      function initializeSessionData() {
+        const now = new Date();
+        const loginTime = new Date(now.getTime() - (2 * 60 + 15) * 60 * 1000); // 2h 15m ago
+        
+        document.getElementById('loginTime').textContent = 
+          loginTime.toLocaleDateString() + ' at ' + loginTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        
+        document.getElementById('sessionDuration').textContent = '2 hours 15 minutes';
+        document.getElementById('recordsAccessed').textContent = Math.floor(Math.random() * 20) + 5;
+      }
+
+      // Countdown timer
+      let timeLeft = 30;
+      const countdownTimer = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').textContent = timeLeft;
+        
+        if (timeLeft <= 0) {
+          clearInterval(countdownTimer);
+          loginAgain();
+        }
+      }, 1000);
+
+      function loginAgain() {
+        clearInterval(countdownTimer);
+        alert('Redirecting to login page...');
+        // In a real application, you would redirect to the login page
+        // window.location.href = 'login.html';
+      }
+
+      function goHome() {
+        clearInterval(countdownTimer);
+        alert('Redirecting to homepage...');
+        // In a real application, you would redirect to the homepage
+        // window.location.href = 'index.html';
+      }
+
+      function showSupport() {
+        alert('Opening support page...');
+      }
+
+      function showPrivacy() {
+        alert('Opening privacy policy...');
+      }
+
+      function showTerms() {
+        alert('Opening terms of service...');
+      }
+
+      // Clear any remaining session data (simulation)
+      function clearSessionData() {
+        // In a real application, you would clear localStorage, sessionStorage, cookies, etc.
+        console.log('Session data cleared');
+      }
+
+      // Initialize the page
+      initializeSessionData();
+      clearSessionData();
+
+      // Stop countdown if user interacts with buttons
+      document.querySelector('.button-group').addEventListener('click', () => {
+        clearInterval(countdownTimer);
+        document.getElementById('countdown').style.display = 'none';
+      });
+    </script>
+  </body>
+</html>
