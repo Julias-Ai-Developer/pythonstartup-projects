@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login to  RecordLite</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+    </style>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "IBM Plex Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 500;
+        font-style: normal;
+        height: 100vh;
+        display: flex;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      }
+
+      .container {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+      }
+
+      .login-section {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        padding: 40px;
+      }
+
+     
+
+      .login-form {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .login-title {
+        font-size: 32px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .login-subtitle {
+        color: #999;
+        font-size: 14px;
+        margin-bottom: 40px;
+        line-height: 1.5;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-label {
+        display: block;
+        color: #333;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #666;
+        background: #fff;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #ff6b35;
+      }
+
+      .form-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .checkbox-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .checkbox {
+        width: 18px;
+        height: 18px;
+        background: #ff6b35;
+        border: none;
+        border-radius: 3px;
+        margin-right: 8px;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .checkbox::after {
+        content: "✓";
+        color: white;
+        font-size: 12px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .checkbox-label {
+        color: #666;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .forgot-link {
+        color: #999;
+        text-decoration: underline;
+        font-size: 14px;
+      }
+
+      .forgot-link:hover {
+        color: #666;
+      }
+
+      .login-button {
+        width: 100%;
+        padding: 15px;
+        background: #ff6b35;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .login-button:hover {
+        background: #e55a2b;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+        }
+
+        
+
+        .login-section {
+          flex: none;
+          height: 100vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="login-section">
+        <div class="login-form">
+          <h1 class="login-title" style="text-align: center;">Login to <strong>  RecordLite</strong></h1>
+          <p class="login-subtitle" style="text-align: center;">
+          Record & Manage Today
+          </p>
+
+          <form>
+            <div class="form-group">
+              <label class="form-label" for="username">Username</label>
+              <input
+                type="email"
+                id="username"
+                class="form-input"
+                placeholder="your-email@gmail.com"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="form-input"
+                placeholder="Your Password"
+              />
+            </div>
+
+            <div class="form-options">
+              <div class="checkbox-container">
+                <div class="checkbox"></div>
+                <label class="checkbox-label">Remember me</label>
+              </div>
+              <a href="./forgotpassword.html" class="forgot-link">Forgot Password</a>
+            </div>
+
+            <button type="submit" class="login-button">Log In</button>
+          </form>
+        </div>
+      </div>
+
+   
+    </div>
+
+    <script>
+      // Simple checkbox toggle functionality
+      document
+        .querySelector(".checkbox")
+        .addEventListener("click", function () {
+          this.style.background =
+            this.style.background === "rgb(255, 107, 53)" ? "#ddd" : "#ff6b35";
+        });
+
+      // Form submission handler
+      document.querySelector("form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (username && password) {
+          alert("Login attempt with: " + username);
+        } else {
+          alert("Please fill in all fields");
+        }
+      });
+    </script>
+  </body>
+</html>
