@@ -121,3 +121,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Redirect URL for @login_required
 LOGIN_URL = '/login/'
 
+
+# settings.py
+
+# ... other settings like DATABASES, INSTALLED_APPS, etc.
+
+# Email configuration for password reset
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your-email@gmail.com'  # Replace with your email
+EMAIL_HOST_PASSWORD = 'your-app-password'  # Use App Password, NOT your email password!
