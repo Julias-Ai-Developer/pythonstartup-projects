@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 
 @login_required
@@ -11,15 +12,13 @@ def home(request):
 
 def login_view(request):
     if request.method == "POST":
-        username = request.POST.get(
-            "username"
-        )  # Or use 'email' if you change the auth system
+        username = request.POST.get("username")
         password = request.POST.get("password")
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            next_url = request.GET.get("next", "home")  # Redirect to next or home
+            next_url = request.GET.get("next", "home")
             return redirect(next_url)
         else:
             messages.error(request, "Invalid username or password")
@@ -28,6 +27,38 @@ def login_view(request):
 
 
 def signup_view(request):
+    if request.method == "POST":
+        first_name = request.POST.get("firstName", "").strip()
+        last_name = request.POST.get("lastName", "").strip()
+        username = request.POST.get("userName", "").strip()
+        email = request.POST.get("email", "").strip().lower()
+        password = request.POST.get("password")
+        confirm_password = request.POST.get("confirmPassword")
+
+        # Basic Validation
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match")
+            return render(request, "myapp/signup.html")
+
+        if len(password) < 8:
+            messages.error(request, "Password must be at least 8 characters")
+            return render(request, "myapp/signup.html")
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "An account with this username already exists")
+            return render(request, "myapp/signup.html")
+
+        # Create user
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+        )
+        messages.success(request, "Account created successfully. Please log in.")
+        return redirect("login")
+
     return render(request, "myapp/signup.html")
 
 
@@ -37,4 +68,5 @@ def logout_view(request):
 
 
 def forgotpassword_view(request):
+    
     return render(request, "myapp/forgotpassword.html")
