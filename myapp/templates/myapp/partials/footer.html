@@ -1,0 +1,147 @@
+
+     <!-- <footer class="footer">
+  <div class="container">
+    <p>&copy; 2025 <strong>Kamatrustai</strong>. All rights reserved.</p>
+    <p class="credits">Designed & Developed with ❤️</p>
+  </div>
+</footer> -->
+
+    </main>
+
+    <!-- Add Record Modal -->
+    <div class="modal" id="addRecordModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Add New Record</h3>
+          <button class="modal-close" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form class="form-container" action="" method="post">
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group">
+                <label for="recordTitle">Record Title</label>
+                <input
+                  type="text"
+                  id="recordTitle"
+                  name="recordTitle"
+                  class="form-control"
+                  placeholder="Enter record title"
+                />
+              </div>
+              <div class="form-group">
+                <label for="recordCategory">Category</label>
+                <select id="recordCategory" class="form-control">
+                  <option value="">Select category</option>
+                  <option value="finance">Finance</option>
+                  <option value="hr">HR</option>
+                  <option value="marketing">Marketing</option>
+                  <option value="it">IT</option>
+                  <option value="operations">Operations</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="recordDescription">Description</label>
+              <textarea
+                id="recordDescription"
+                class="form-control"
+                rows="3"
+                placeholder="Enter record description"
+              ></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="recordDate">Creation Date</label>
+                <input type="date" id="recordDate" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="recordStatus">Status</label>
+                <select id="recordStatus" class="form-control">
+                  <option value="active">Active</option>
+                  <option value="pending">Pending Review</option>
+                  <option value="archived">Archived</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="recordFile">Upload File</label>
+              <input type="file" id="recordFile" class="form-control" />
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-outline">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save Record</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+
+    <script>
+      // Toggle dropdown menu
+      const userProfile = document.getElementById("userProfile");
+      const dropdownMenu = document.getElementById("dropdownMenu");
+
+      userProfile.addEventListener("click", () => {
+        dropdownMenu.classList.toggle("active");
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!userProfile.contains(e.target)) {
+          dropdownMenu.classList.remove("active");
+        }
+      });
+
+      // Toggle submenu
+      const menuItems = document.querySelectorAll(".menu-item");
+
+      menuItems.forEach((item) => {
+        if (item.querySelector(".bi-chevron-down")) {
+          item.addEventListener("click", () => {
+            const submenu = item.nextElementSibling;
+            submenu.classList.toggle("active");
+
+            const chevron = item.querySelector(".bi-chevron-down");
+            if (submenu.classList.contains("active")) {
+              chevron.classList.remove("bi-chevron-down");
+              chevron.classList.add("bi-chevron-up");
+            } else {
+              chevron.classList.remove("bi-chevron-up");
+              chevron.classList.add("bi-chevron-down");
+            }
+          });
+        }
+      });
+
+      // Modal functionality
+      const addRecordBtn = document.getElementById("addRecordBtn");
+      const addRecordModal = document.getElementById("addRecordModal");
+      const closeModal = document.getElementById("closeModal");
+
+      addRecordBtn.addEventListener("click", () => {
+        addRecordModal.classList.add("active");
+      });
+
+      closeModal.addEventListener("click", () => {
+        addRecordModal.classList.remove("active");
+      });
+
+      // Close modal when clicking outside
+      addRecordModal.addEventListener("click", (e) => {
+        if (e.target === addRecordModal) {
+          addRecordModal.classList.remove("active");
+        }
+      });
+
+      $(document).ready(function () {
+        $("#recordsTable").DataTable({
+          paging: true, // Enable pagination
+          searching: true, // Enable search box
+          ordering: true, // Enable sorting on columns
+        });
+      });
+    </script>
+  </body>
+</html>

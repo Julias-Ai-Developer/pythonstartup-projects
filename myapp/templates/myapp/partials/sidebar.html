@@ -1,0 +1,55 @@
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1><i class="bi bi-database"></i> <span>RecordLite</span></h1>
+    </div>
+    <nav class="sidebar-menu">
+      <div class="menu-item active">
+        <i class="bi bi-speedometer2"></i>
+        <a href="{% url 'dashboard'%}">
+          <span>Dashboard</span>
+        </a>
+      </div>
+      <div class="menu-item">
+        <i class="bi bi-folder"></i>
+        <span>Records</span>
+        <i class="bi bi-chevron-down"></i>
+      </div>
+      <div class="submenu">
+        <div class="submenu-item active">
+          <i class="bi bi-list-ul"></i>
+          <a href="{% url 'records'%}">
+            <span>All Records</span>
+          </a>
+        </div>
+        <div class="submenu-item">
+          <i class="bi bi-plus-circle"></i>
+          <a href="{% url 'add-records'%}">
+            <span>Add New</span>
+          </a>
+        </div>
+        <div class="submenu-item">
+          <i class="bi bi-tags"></i>
+          <span>Categories</span>
+        </div>
+      </div>
+      <div class="menu-item">
+        <i class="bi bi-people"></i>
+        <span>Users</span>
+      </div>
+      <div class="menu-item">
+        <i class="bi bi-file-earmark-text"></i>
+        <span>Reports</span>
+      </div>
+      <div class="menu-item">
+        <i class="bi bi-graph-up"></i>
+        <span>Analytics</span>
+      </div>
+      <div class="menu-item">
+        <i class="bi bi-gear"></i>
+        <span>Settings</span>
+      </div>
+    </nav>
+  </aside>
+</body>

@@ -1,0 +1,64 @@
+{% include 'myapp/partials/header.html' %}
+ {% include 'myapp/partials/sidebar.html' %}
+    <!-- Main Content Area -->
+{% include 'myapp/partials/navbar.html' %}
+
+      <!-- Dashboard Content -->
+      <div class="main-content">
+       
+        <!-- Recent Records Table -->
+        <div class="widget">
+          <div class="widget-header">
+            <h3 class="widget-title">Recent Records</h3>
+            <div class="widget-actions">
+              <button class="btn btn-primary" id="addRecordBtn">
+              <i class="bi bi-plus"></i> Add Record
+            </button>
+            </div>
+          </div>
+          <div class="widget-body">
+            <div class="table-container">
+              <table id="recordsTable">
+                <thead>
+                  <tr>
+                    <th>Record ID</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Created</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#REC-1001</td>
+                    <td>Annual Financial Report 2023</td>
+                    <td>Finance</td>
+                    <td>2023-12-15</td>
+                    <td>
+                      <span class="status-badge status-active">Active</span>
+                    </td>
+                    <td>
+                      <button class="action-btn">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="action-btn">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="action-btn">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                 
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+       
+      </div>
+
+
+{% include 'myapp/partials/footer.html'%}

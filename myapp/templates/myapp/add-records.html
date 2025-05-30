@@ -1,0 +1,179 @@
+{% include 'myapp/partials/header.html' %}
+{% include 'myapp/partials/sidebar.html' %}
+{% include 'myapp/partials/navbar.html' %}
+
+
+ <!-- main Content -->
+      <div class="main-content">
+       
+        <!-- Recent Records Table -->
+        <div class="widget">
+          <div class="form-wrapper">
+        <div style="margin-bottom: 4px;">
+            <h3>Add New Record</h3>
+        </div>
+        
+        <form class="form-container" action="{% url 'add-records'%}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+           
+            <div class="form-row">
+                
+                <div class="form-group required">
+                    <label for="recordTitle">Record Title</label>
+                    <input
+                        type="text"
+                        id="recordTitle"
+                        name="recordTitle"
+                        class="form-control"
+                        placeholder="Enter record title"
+                        required
+                    />
+                    <div class="error-message" id="titleError">Please enter a record title</div>
+                </div>
+                <div class="form-group required">
+                    <label for="recordCategory">Category</label>
+                    <select id="recordCategory" name="recordCategory" class="form-control" required>
+                        <option value="">Select category</option>
+                        <option value="finance">Finance</option>
+                        <option value="hr">HR</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="it">IT</option>
+                        <option value="operations">Operations</option>
+                    </select>
+                    <div class="error-message" id="categoryError">Please select a category</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="recordDescription">Description</label>
+                <textarea
+                    id="recordDescription"
+                    name="recordDescription"
+                    class="form-control"
+                    rows="4"
+                    placeholder="Enter record description (optional)"
+                ></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group required">
+                    <label for="recordDate">Creation Date</label>
+                    <input 
+                        type="date" 
+                        id="recordDate" 
+                        name="recordDate"
+                        class="form-control"
+                        required
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="recordStatus">Status</label>
+                    <select id="recordStatus" name="recordStatus" class="form-control">
+                        <option value="active">Active</option>
+                        <option value="pending">Pending Review</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                </div>
+            </div>
+
+           
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-outline" onclick="window.history.back()">
+                    <i class="bi bi-arrow-left"></i>
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i>
+                    Save Record
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+      
+
+        // Form validation
+        function validateField(field, errorId, message) {
+            const errorElement = document.getElementById(errorId);
+            
+            if (!field.value.trim()) {
+                field.classList.add('invalid');
+                errorElement.textContent = message;
+                errorElement.classList.add('show');
+                return false;
+            } else {
+                field.classList.remove('invalid');
+                errorElement.classList.remove('show');
+                return true;
+            }
+        }
+
+        // Real-time validation
+        document.getElementById('recordTitle').addEventListener('blur', function() {
+            validateField(this, 'titleError', 'Please enter a record title');
+        });
+
+        document.getElementById('recordCategory').addEventListener('change', function() {
+            validateField(this, 'categoryError', 'Please select a category');
+        });
+
+        document.getElementById('recordDate').addEventListener('change', function() {
+            validateField(this, 'dateError', 'Please select a date');
+        });
+
+        // Form submission validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const title = document.getElementById('recordTitle');
+            const category = document.getElementById('recordCategory');
+            const date = document.getElementById('recordDate');
+            
+            let isValid = true;
+            
+            if (!validateField(title, 'titleError', 'Please enter a record title')) {
+                isValid = false;
+            }
+            
+            if (!validateField(category, 'categoryError', 'Please select a category')) {
+                isValid = false;
+            }
+            
+            if (!validateField(date, 'dateError', 'Please select a date')) {
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                // Scroll to first invalid field
+                const firstInvalid = document.querySelector('.form-control.invalid');
+                if (firstInvalid) {
+                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstInvalid.focus();
+                }
+            }
+        });
+
+        // Clear validation on input
+        document.querySelectorAll('.form-control').forEach(field => {
+            field.addEventListener('input', function() {
+                if (this.classList.contains('invalid')) {
+                    this.classList.remove('invalid');
+                    const errorId = this.id + 'Error';
+                    const errorElement = document.getElementById(errorId);
+                    if (errorElement) {
+                        errorElement.classList.remove('show');
+                    }
+                }
+            });
+        });
+    </script>
+          
+        </div>
+
+       
+      </div>
+
+
+
+{% include 'myapp/partials/footer.html'%}
