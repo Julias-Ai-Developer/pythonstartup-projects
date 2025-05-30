@@ -122,6 +122,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/login/'
 
 
+
 # settings.py
 
 # ... other settings like DATABASES, INSTALLED_APPS, etc.

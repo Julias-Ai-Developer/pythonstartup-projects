@@ -3,11 +3,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
+from .models import Record
+from django.utils import timezone
 
 
 @login_required
-def home(request):
-    return render(request, "myapp/home.html")
+def dashboard(request):
+    return render(request, "myapp/dashboard.html")
 
 
 def login_view(request):
@@ -18,7 +20,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            next_url = request.GET.get("next", "home")
+            next_url = request.GET.get("next", "dashboard")
             return redirect(next_url)
         else:
             messages.error(request, "Invalid username or password")
@@ -45,7 +47,7 @@ def signup_view(request):
             return render(request, "myapp/signup.html")
 
         if User.objects.filter(username=username).exists():
-            messages.error(request, "An account with this username already exists")
+            messages.error(request, "An account with this email already exists")
             return render(request, "myapp/signup.html")
 
         # Create user
@@ -68,5 +70,35 @@ def logout_view(request):
 
 
 def forgotpassword_view(request):
-    
     return render(request, "myapp/forgotpassword.html")
+
+
+# add record
+@login_required
+def records_view(request):
+    return render(request, "myapp/records.html")
+
+
+@login_required
+def add_records_view(request):
+    if request.method == "POST":
+        title = request.POST.get('recordTitle')
+        category = request.POST.get('recordCategory')
+        description = request.POST.get('recordDescription', '')
+        date = request.POST.get("recordDate")
+        status = request.POST.get('recordStatus', 'active')
+
+        Record.objects.create(
+            title=title,
+            description=description,
+            category=category,
+            date=date,
+            status=status,
+            created_by=request.user
+        )
+
+        return redirect('add-records')  # redirect after POST
+
+    # Only for GET request, fetch records and show page
+    records = Record.objects.filter(created_by=request.user).order_by('-date')
+    return render(request, "myapp/add-records.html", {"records": records})
