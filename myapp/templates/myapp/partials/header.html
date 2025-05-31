@@ -31,7 +31,7 @@
     <style>
       :root {
         --primary-color: #2c3e50;
-        --secondary-color: #3498db;
+        --secondary-color: rgb(165, 19, 165);
         --accent-color: #e74c3c;
         --success-color: #27ae60;
         --warning-color: #f39c12;
@@ -51,10 +51,10 @@
         padding: 0;
         box-sizing: border-box;
       }
-a{
-  text-decoration: none;
-  color: #ffffff;
-}
+      a {
+        text-decoration: none;
+        color: #ffffff;
+      }
       body {
         font-family: "IBM Plex Sans", sans-serif;
         background-color: var(--bg-light);
@@ -74,7 +74,7 @@ a{
         transition: var(--transition);
         z-index: 1000;
       }
-     
+
       .sidebar-header {
         padding: 0 1.5rem 1.5rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -164,9 +164,6 @@ a{
         position: relative;
       }
 
-    
-
-   
       .user-profile {
         display: flex;
         align-items: center;
@@ -265,7 +262,7 @@ a{
 
       .btn {
         padding: 0.5rem 1rem;
-        border-radius: var(--border-radius);
+        border-radius: 5px;
         border: none;
         font-weight: 500;
         cursor: pointer;
@@ -281,7 +278,7 @@ a{
       }
 
       .btn-primary:hover {
-        background: #2980b9;
+        background: purple;
       }
 
       .btn-outline {
@@ -323,12 +320,10 @@ a{
         background: var(--bg-white);
         border-radius: var(--border-radius);
         box-shadow: var(--shadow);
-        padding: 1.0rem;
+        padding: 1rem;
         max-height: 100%;
         height: 70em;
         width: 67.5em;
-        
-        
       }
 
       .widget-header {
@@ -413,7 +408,6 @@ a{
       }
 
       thead {
-       
         background: var(--bg-light);
       }
 
@@ -455,12 +449,35 @@ a{
         color: var(--text-light);
       }
 
-      .action-btn {
-        background: none;
-        border: none;
+      .action-btn-danger {
         cursor: pointer;
-        color: var(--text-light);
+        border: none;
+        border-radius: 2.5px;
+        color: white;
+        background-color: var(--accent-color);
         transition: var(--transition);
+        padding: 5px;
+        
+        font-weight: 500;
+      }
+      .action-btn-view {
+        cursor: pointer;
+        border: none;
+        border-radius: 2.5px;
+        color: white;
+        background-color: var(--primary-color);
+        transition: var(--transition);
+        padding: 5px;
+      }
+
+      .action-btn-edit {
+        cursor: pointer;
+        border: none;
+        border-radius: 2.5px;
+        color: white;
+        background-color: var(--secondary-color);
+        transition: var(--transition);
+        padding: 5px;
       }
 
       .action-btn:hover {
@@ -580,8 +597,6 @@ a{
         gap: 1rem;
       }
 
-      
-
       /* Responsive */
       @media (max-width: 1200px) {
         .widget-row {
@@ -639,6 +654,14 @@ a{
           flex-direction: column;
           gap: 0;
         }
+      }
+
+
+      footer{
+        background-color: green;
+        padding: 2em;
+        position: static;
+        z-index: -1000;
       }
     </style>
   </head>

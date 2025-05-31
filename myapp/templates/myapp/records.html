@@ -1,64 +1,75 @@
 {% include 'myapp/partials/header.html' %}
- {% include 'myapp/partials/sidebar.html' %}
-    <!-- Main Content Area -->
+{% include 'myapp/partials/sidebar.html' %}
+<!-- Main Content Area -->
 {% include 'myapp/partials/navbar.html' %}
 
-      <!-- Dashboard Content -->
-      <div class="main-content">
-       
-        <!-- Recent Records Table -->
-        <div class="widget">
-          <div class="widget-header">
-            <h3 class="widget-title">Recent Records</h3>
-            <div class="widget-actions">
-              <button class="btn btn-primary" id="addRecordBtn">
-              <i class="bi bi-plus"></i> Add Record
-            </button>
-            </div>
-          </div>
-          <div class="widget-body">
-            <div class="table-container">
-              <table id="recordsTable">
-                <thead>
-                  <tr>
-                    <th>Record ID</th>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Created</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>#REC-1001</td>
-                    <td>Annual Financial Report 2023</td>
-                    <td>Finance</td>
-                    <td>2023-12-15</td>
-                    <td>
-                      <span class="status-badge status-active">Active</span>
-                    </td>
-                    <td>
-                      <button class="action-btn">
-                        <i class="bi bi-eye"></i>
-                      </button>
-                      <button class="action-btn">
-                        <i class="bi bi-pencil"></i>
-                      </button>
-                      <button class="action-btn">
-                        <i class="bi bi-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                 
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+<!-- Dashboard Content -->
+<div class="main-content">
+   
+ <!-- Recent Records Table -->
+<div class="widget">
+  <div class="widget-header">
+    <h3 class="widget-title">Recent Records</h3>
+    <div class="widget-actions">
+      <a href="{% url 'add-records'%}"> 
+        <button class="btn btn-primary" id="addRecordBtn">
+        <i class="bi bi-plus-circle" style="color: white;"></i> Add Record
+      </button>
+      </a>
+      
+    </div>
+  </div>
+  <div class="widget-body">
+    <div class="table-container">
+      <table id="recordsTable">
+        <thead>
+          <tr>
+            <th>Record ID</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Created</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in records %}
+          <tr>
+            
+            <td>#{{forloop.counter}}</td> 
+            <td>{{ record.title }}</td>
+            <td>{{ record.category }}</td>
+            <td>{{ record.date|date:"Y-m-d" }}</td>
+            <td>
+              <span class="status-badge status-{{ record.status }}">{{ record.status }}</span>
+            </td>
+            <td>
+              
 
-       
-      </div>
 
+              <button class="action-btn-view" onclick="viewRecord(3)"><i class="bi bi-eye" style="margin-right: 5px;"></i>view</button>
+              <button class="action-btn-edit" onclick="editRecord(3)"><i class="bi bi-pencil-square" style="margin-right: 5px;"> edit</i></button>
+              <button class="action-btn-danger" onclick="deleteRecord(3)"><i class="bi bi-trash" style="margin-right: 5px;"></i>delete</button>
+            </td>
+          </tr>
+          {% empty %}
+         
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+ 
+</div>
+      <!-- <footer class="footer">
+  <div class="container">
+    <p>&copy; 2025 <strong>Kamatrustai</strong>. All rights reserved.</p>
+    <p class="credits">Designed & Developed with ❤️</p>
+  </div>
+</footer>  -->
+   </main>
+   
 
 {% include 'myapp/partials/footer.html'%}
