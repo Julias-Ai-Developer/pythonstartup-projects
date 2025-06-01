@@ -123,7 +123,11 @@ def add_records_view(request):
     # print("records", records)
     categories = Category.objects.all()
 
-    return render(request, "myapp/add-records.html", {"records": records, "categories": categories})
+    return render(
+        request,
+        "myapp/add-records.html",
+        {"records": records, "categories": categories},
+    )
 
 
 @login_required
@@ -146,3 +150,25 @@ def categories_view(request):
     )
     # ✅ Render template on GET or fallback
     return render(request, "myapp/categories.html", {"categories": Categories})
+
+
+@login_required
+def reports_view(request):
+    return render(request, "myapp/reports.html")
+
+
+@login_required
+def profile_view(request):
+    return render(request, "myapp/profile.html")
+
+@login_required
+def settings_view(request):
+    return render(request , "myapp/settings.html")
+
+@login_required
+def analytics_view(request):
+    return render(request , "myapp/analytics.html")
+
+@login_required
+def schedules_view(request):
+    return render(request, "myapp/schedules.html")

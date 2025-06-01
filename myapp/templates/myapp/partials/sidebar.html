@@ -6,8 +6,9 @@
     </div>
     <nav class="sidebar-menu">
       <div class="menu-item active">
-        <i class="bi bi-speedometer2"></i>
+       
         <a href="{% url 'dashboard'%}">
+           <i class="bi bi-speedometer2"></i>
           <span>Dashboard</span>
         </a>
       </div>
@@ -18,43 +19,55 @@
       </div>
       <div class="submenu">
         <div class="submenu-item active">
-          <i class="bi bi-list-ul"></i>
+          
           <a href="{% url 'records'%}">
+            <i class="bi bi-list-ul"></i>
             <span>All Records</span>
           </a>
         </div>
         <div class="submenu-item">
-          <i class="bi bi-plus-circle"></i>
+          
           <a href="{% url 'add-records'%}">
+            <i class="bi bi-plus-circle"></i>
             <span>Add New</span>
           </a>
         </div>
         <div class="submenu-item">
-          <i class="bi bi-tags"></i>
+         
           <a href="{% url 'categories' %}">
-              <span> categories</span>
+             <i class="bi bi-tags"></i>
+            <span> categories</span>
           </a>
-        
         </div>
       </div>
       <div class="menu-item">
-        <i class="bi bi-people"></i>
-        <span>Users</span>
+       
+        <a href="{% url 'schedules'%}">
+           <i class="bi bi-people"></i>
+          <span>Schedules</span>
+        </a>
       </div>
       <div class="menu-item">
-        <i class="bi bi-file-earmark-text"></i>
-        <span>Reports</span>
+       
+        <a href="{% url 'reports'%}">
+           <i class="bi bi-file-earmark-text"></i>
+          <span>Reports</span>
+        </a>
       </div>
       <div class="menu-item">
-        <i class="bi bi-graph-up"></i>
-        <span>Analytics</span>
+       
+        <a href="{% url 'analytics'%}">
+           <i class="bi bi-graph-up"></i>
+          <span>Analytics</span>
+        </a>
       </div>
       <div class="menu-item">
-        <i class="bi bi-gear"></i>
-        <span>Settings</span>
+       
+        <a href="{% url 'settings'%}">
+           <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </a>
       </div>
     </nav>
   </aside>
-
-
 </body>
