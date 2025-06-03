@@ -1,6 +1,12 @@
+{% load static%}
+
 {% include 'myapp/partials/header.html' %}
 {% include 'myapp/partials/sidebar.html' %}
+<!-- Main Content Area -->
 {% include 'myapp/partials/navbar.html' %}
+
+
+<link rel="stylesheet" href="{% static 'css/style.css'%}">
 
 <div class="main-content">
     <!-- Cards Section -->
@@ -56,6 +62,9 @@
     </div>
    </div>
 </div>
+
+ </main>
+
 
 {% include 'myapp/partials/footer.html'%}
 

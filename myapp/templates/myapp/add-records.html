@@ -1,6 +1,12 @@
+{% load static%}
+
 {% include 'myapp/partials/header.html' %}
 {% include 'myapp/partials/sidebar.html' %}
+<!-- Main Content Area -->
 {% include 'myapp/partials/navbar.html' %}
+
+
+<link rel="stylesheet" href="{% static 'css/style.css'%}">
 
 
  <!-- main Content -->
@@ -34,11 +40,12 @@
                     <label for="recordCategory">Category</label>
                     <select id="recordCategory" name="recordCategory" class="form-control" required>
                         <option value="">Select category</option>
-                        <option value="finance">Finance</option>
-                        <option value="hr">HR</option>
-                        <option value="marketing">Marketing</option>
-                        <option value="it">IT</option>
-                        <option value="operations">Operations</option>
+                        {% for category in categories%}
+                        
+                         <option value="{{category.category_name}}">{{category.category_name}}</option>
+                         {%empty%}
+                         {%endfor%}
+                         
                     </select>
                     <div class="error-message" id="categoryError">Please select a category</div>
                 </div>
@@ -90,6 +97,9 @@
             </div>
         </form>
     </div>
+
+   
+
 
     <script>
       

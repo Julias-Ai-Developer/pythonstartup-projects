@@ -1,0 +1,126 @@
+{% load static%}
+
+{% include 'myapp/partials/header.html' %}
+{% include 'myapp/partials/sidebar.html' %}
+<!-- Main Content Area -->
+{% include 'myapp/partials/navbar.html' %}
+
+
+<link rel="stylesheet" href="{% static 'css/style.css'%}">
+<link rel="stylesheet" href="{% static 'css/report.css'%}">
+<!-- Dashboard Content -->
+<div class="main-content">
+
+  <!-- Filter Section -->
+  <div class="widget" style="margin-bottom: 20px;">
+    <div class="widget-header">
+      <h3 class="widget-title">
+        <i class="bi bi-funnel" style="margin-right: 8px; color: #007bff;"></i>
+        Filter Records
+      </h3>
+      <button type="button" class="btn-collapse" onclick="toggleFilter()" id="filterToggleBtn">
+        <i class="bi bi-chevron-up"></i>
+      </button>
+    </div>
+    <div class="widget-body" id="filterSection">
+      <form method="GET" id="filterForm" class="filter-form">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="from_date" class="filter-label">
+              <i class="bi bi-calendar-event"></i> From Date:
+            </label>
+            <input type="date" id="from_date" name="from_date" value="" class="filter-input">
+          </div>
+
+          <div class="filter-group">
+            <label for="to_date" class="filter-label">
+              <i class="bi bi-calendar-check"></i> To Date:
+            </label>
+            <input type="date" id="to_date" name="to_date" value="" class="filter-input">
+          </div>
+
+          <div class="filter-group">
+            <label for="category" class="filter-label">
+              <i class="bi bi-tags"></i> Category:
+            </label>
+            <select name="category" class="filter-select">
+              <option value="" selected>All Categories</option>
+              {% for category in categories %}
+              <option value="{{ category.category_name }}">{{ category.category_name }}</option>
+              {% empty %}
+              <option disabled>No categories available</option>
+              {% endfor %}
+            </select>
+
+          </div>
+
+          <div class="filter-actions">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-funnel"></i> Filter
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-actions">
+
+          <a href="{% url 'export_pdf' %}" class="btn btn-info" target="_blank">
+  <i class="bi bi-file-earmark-pdf"></i> Download PDF
+</a>
+
+
+          
+        </div>
+      </form>
+    </div>
+
+
+    <!-- Records Table Widget -->
+
+    <div class="widget-body">
+      <div class="table-container">
+        <table id="recordsTable">
+          <thead>
+            <tr>
+              <th>Record ID</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Created</th>
+              <th>Status</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in records %}
+            <tr>
+
+              <td>#{{forloop.counter}}</td>
+              <td>{{ record.title }}</td>
+              <td>{{ record.category }}</td>
+              <td>{{ record.date|date:"Y-m-d" }}</td>
+              <td>
+                <span class="status-badge status-{{ record.status }}">{{ record.status }}</span>
+              </td>
+
+
+            </tr>
+            {% empty %}
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+
+
+</div>
+</div>
+
+</main>
+
+
+
+
+{% include 'myapp/partials/footer.html' %}

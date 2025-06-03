@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myapp',  # Make sure this is here
+     # your other apps
+    'rest_framework',
+    
 ]
 
 MIDDLEWARE = [
@@ -112,6 +115,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "myapp" / "static",
+]
+
+STATIC_ROOT = BASE_DIR /"staticfiles"  # for collecting static files in production
+
+# Media files (user uploads like images)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Default primary key field type

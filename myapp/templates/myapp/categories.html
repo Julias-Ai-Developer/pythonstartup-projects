@@ -1,0 +1,106 @@
+{% load static%}
+
+{% include 'myapp/partials/header.html' %}
+{% include 'myapp/partials/sidebar.html' %}
+<!-- Main Content Area -->
+{% include 'myapp/partials/navbar.html' %}
+
+
+<link rel="stylesheet" href="{% static 'css/style.css'%}">
+<!-- Dashboard Content -->
+<div class="main-content">
+   
+ <!-- Recent Records Table -->
+<div class="widget">
+  <div class="widget-header">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-actions">
+      <button class="btn btn-primary" id="addRecordBtn">
+        <i class="bi bi-plus-circle" style="color: white;"></i> Add Record
+      </button>
+    </div>
+  </div>
+  <div class="widget-body">
+    <div class="table-container">
+      <table id="recordsTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>category</th>
+            <th>created At</th>
+            
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for category in categories %}
+          <tr>
+            
+            <td>#{{forloop.counter}}</td> 
+            <td>{{category.category_name}}</td>
+            
+            <td>{{ category.category_date}}</td>
+            
+          <td>
+              <button class="action-btn-view"><i class="bi bi-eye" style="margin-right: 5px;"></i>view</button>
+              <button class="action-btn-edit"><i class="bi bi-pencil-square" style="margin-right: 5px;"> edit</i></button>
+              <button class="action-btn-danger"><i class="bi bi-trash" style="margin-right: 5px;"></i>delete</button>
+            </td>
+          </tr>
+          {% empty %}
+         
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+ 
+</div>
+
+ </main>
+
+ <!-- Add category Modal -->
+    <div class="modal" id="addcategoryModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Add New Category</h3>
+          <button class="modal-close" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form class="form-container" action="{% url 'categories' %}" method="post">
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group">
+                <label for="categoryTitle">Category</label>
+                <input
+                  type="text"
+                  id="categoryName"
+                  name="categoryName"
+                  class="form-control"
+                  placeholder="Enter categoryName"
+                />
+              </div>
+             
+            </div>
+           
+            <div class="form-row">
+              <div class="form-group">
+                <label for="categoryDate">Creation Date</label>
+                <input type="date" id="categoryDate" name="categoryDate" class="form-control" />
+              </div>
+             
+            </div>
+            
+            <div class="form-actions">
+              <button type="button" class="btn btn-outline">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save category</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+ 
+
+{% include 'myapp/partials/footer.html'%}

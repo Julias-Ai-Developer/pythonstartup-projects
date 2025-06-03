@@ -1,0 +1,94 @@
+{% load static%}
+
+{% include 'myapp/partials/header.html' %}
+{% include 'myapp/partials/sidebar.html' %}
+<!-- Main Content Area -->
+{% include 'myapp/partials/navbar.html' %}
+
+
+<link rel="stylesheet" href="{% static 'css/style.css'%}">
+<style>
+  /* Days of the week header (Sun, Mon, etc.) */
+.fc-col-header-cell {
+  background-color: #004080;  /* Navy background */
+  color: white;               /* White text */
+  font-weight: bold;
+  padding: 10px 0;
+  border: 1px solid #ccc;
+}
+
+/* Optional: Make sure header text is centered and styled */
+.fc-col-header-cell-cushion {
+  text-align: center;
+  display: block;
+  font-size: 14px;
+  
+}
+/* Entire calendar background */
+#calendar {
+  background-color: #f3e5f5; /* Light purple */
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* Calendar table */
+.fc {
+  background-color: #e1bee7; /* Softer purple */
+  border-radius: 10px;
+}
+
+/* Day cells */
+.fc-daygrid-day {
+  background-color: #f8f9fa;
+  border: 1px solid #d1c4e9; /* purple-ish border */
+}
+
+/* Day numbers */
+.fc-daygrid-day-number {
+  color: #6a1b9a; /* Deep purple text */
+  font-weight: bold;
+}
+
+/* Today highlight */
+.fc-day-today {
+  background-color: #ce93d8 !important;
+  border: 2px solid #6a1b9a !important;
+}
+
+
+</style>
+<!-- Dashboard Content -->
+<div class="main-content">
+   
+ <!--- maincontent goes here -->
+<div class="widget">
+  
+<!-- In your template -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+
+<div id='calendar'></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let calendarEl = document.getElementById('calendar');
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: '/api/events/',  // This is your Django API endpoint
+      eventTimeFormat: { // optional formatting
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      },
+    });
+    calendar.render();
+  });
+</script>
+
+
+</div>
+</div>
+
+  </main>
+
+{% include 'myapp/partials/footer.html'%}
