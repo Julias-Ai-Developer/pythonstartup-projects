@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        h1 { color: #eee; text-align: center; font-family: Arial; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #444; padding: 8px; font-size: 12px; }
+        th { background-color: #eee; }
+        .headingsection{
+            background-color:rgb(5, 5, 66);
+            padding: 1em;
+            width: 100%;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="headingsection"> <h1>{{ user.first_name }}'s Records Report</h1>
+</div>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.title }}</td>
+            <td>{{ record.category }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

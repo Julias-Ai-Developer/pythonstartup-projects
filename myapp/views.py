@@ -8,6 +8,25 @@ from .models import CustomUser
 from .models import Category
 from django.utils import timezone
 
+#pdf template
+from xhtml2pdf import pisa
+from django.template.loader import get_template
+from django.http import HttpResponse
+import io
+
+# views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .models import Event
+from .serializers import EventSerializer
+
+class EventListAPI(APIView):
+    def get(self, request):
+        events = Event.objects.all()
+        serializer = EventSerializer(events, many=True)
+        return Response(serializer.data)
+
+
 
 @login_required
 def dashboard(request):
@@ -154,8 +173,13 @@ def categories_view(request):
 
 @login_required
 def reports_view(request):
-    return render(request, "myapp/reports.html")
-
+    categories = Category.objects.filter(created_by=request.user)
+    records = Record.objects.filter(created_by=request.user).order_by("-date")
+    return render(
+        request,
+        "myapp/reports.html",
+        {"categories": categories, "records": records}
+    )
 
 @login_required
 def profile_view(request):
@@ -172,3 +196,20 @@ def analytics_view(request):
 @login_required
 def schedules_view(request):
     return render(request, "myapp/schedules.html")
+@login_required
+def export_records_pdf(request):
+    records = Record.objects.filter(created_by=request.user).order_by("-date")
+    template_path = "myapp/records_pdf.html"
+    context = {"records": records, "user": request.user}
+
+    template = get_template(template_path)
+    html = template.render(context)
+
+    result = io.BytesIO()
+    pdf = pisa.pisaDocument(io.BytesIO(html.encode("UTF-8")), result)
+
+    if not pdf.err:
+        response = HttpResponse(result.getvalue(), content_type="application/pdf")
+        response["Content-Disposition"] = 'attachment; filename="records_report.pdf"'
+        return response
+    return HttpResponse("Failed to generate PDF", status=500)

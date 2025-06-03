@@ -34,3 +34,11 @@ class Category(models.Model):
 
     class Meta:  # ✅ Correct — nested inside the model
         verbose_name_plural = "Categories"
+
+class Event(models.Model):
+    title = models.CharField(max_length=200)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+
+    def __str__(self):
+        return self.title
