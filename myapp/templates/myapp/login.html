@@ -39,6 +39,23 @@
       text-decoration: none;
     }
 
+    #clock {
+      font-size: 48px;
+      font-family: "IBM Plex Sans", sans-serif;
+      /* color: #4b0082;  */
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    #clock-date,
+    #location {
+      font-size: 13.5px;
+    }
+
+    #location {
+      font-size: 20px;
+    }
+
     .hero-section {
       flex: 1;
       /* background: linear-gradient(135deg, #170568 0%, #2a0a8f 100%); */
@@ -94,6 +111,9 @@
 
     .hero-pattern {
       position: absolute;
+      pointer-events: none;
+      /* ✅ Allow links under it to be clickable */
+
       top: 0;
       left: 0;
       width: 100%;
@@ -267,17 +287,17 @@
       margin-left: 10px;
     }
 
-    .signup-section {
+    .whatsapp-section {
       text-align: center;
     }
 
-    .signup-text {
+    .whatsapp-text {
       color: #64748b;
       font-size: 0.9rem;
       margin-bottom: 15px;
     }
 
-    .signup-button {
+    .whatsapp-button {
       width: 100%;
       padding: 14px;
       background: transparent;
@@ -295,7 +315,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
 
-    .signup-button:hover {
+    .whatsapp-button:hover {
       background: #f8fafc;
     }
 
@@ -347,6 +367,7 @@
           <li><i class="fas fa-check-circle"></i> 24/7 customer support</li>
         </ul>
       </div>
+
       <p>Stay Intouch </p>
       <p style="color: white;">
 
@@ -366,6 +387,13 @@
           <i class="fab fa-linkedin"></i> @kamatrustai
         </a>
       </p>
+      <div id="clock">
+        <div id="clock-time"></div>
+        <div id="clock-date"></div>
+        <div id="location"></div>
+      </div>
+
+
     </div>
 
     <!-- Login Form Section -->
@@ -377,9 +405,8 @@
         <form action="{% url 'login' %}" method="post">
           {% csrf_token %}
           <div class="form-group">
-            <label class="form-label" for="username">Username</label>
-            <input type="text" id="username" class="form-input" name="username" placeholder="Enter your username"
-              required />
+            <label class="form-label" for="username">Email</label>
+            <input type="text" id="email" class="form-input" name="email" placeholder="Enter your email" required />
           </div>
 
           <div class="form-group">
@@ -410,14 +437,17 @@
 
         <div class="divider">or</div>
 
-        <div class="signup-section">
-          <p class="signup-text">Don't have an account?</p>
-          <a href="{% url 'signup'%}">
-            <button type="button" class="signup-button">
-              Create Account <i class="fas fa-user-plus"></i>
+        <div class="whatsapp-section">
+          <p class="whatsapp-text">Don't have an account?</p>
+          <a href="https://wa.me/256776828355?text=Hello%2C%20I%20need%20help%20creating%20an%20account"
+            target="_blank">
+
+            <button type="button" class="whatsapp-button">
+              WhatsApp <i class="fab fa-whatsapp" style="color: rgb(143, 240, 143);"></i>
             </button>
           </a>
         </div>
+
       </div>
     </div>
   </div>
@@ -441,6 +471,54 @@
       });
     });
   </script>
+  <script>
+    function updateClock() {
+      const now = new Date();
+
+      let hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+
+      const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
+
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+
+      const dayName = days[now.getDay()];
+      const monthName = months[now.getMonth()];
+      const date = now.getDate();
+      const year = now.getFullYear();
+      const formattedDate = `${dayName}, ${monthName} ${date}, ${year}`;
+
+      document.getElementById('clock-time').textContent = formattedTime;
+      document.getElementById('clock-date').textContent = formattedDate;
+    }
+
+    function fetchLocation() {
+      fetch('http://ip-api.com/json/')
+        .then(response => response.json())
+        .then(data => {
+          const location = `${data.city}, ${data.regionName}, ${data.country}`;
+          document.getElementById('location').textContent = location;
+        })
+        .catch(error => {
+          document.getElementById('location').textContent = 'Location unavailable';
+          console.error('Location error:', error);
+        });
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+    fetchLocation();
+  </script>
+
+
+
 </body>
 
 </html>
