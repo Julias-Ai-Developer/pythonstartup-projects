@@ -2,23 +2,25 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth.models import User
-from .models import Record
-from .models import CustomUser
-from .models import Category
+from .models import Superadmin, Record, Category, Event
 from django.utils import timezone
 
-#pdf template
+# PDF template
 from xhtml2pdf import pisa
 from django.template.loader import get_template
 from django.http import HttpResponse
 import io
 
-# views.py
+
+# users to login not as superadmin
+from django.contrib.auth.models import Group
+
+
+# DRF API view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Event
 from .serializers import EventSerializer
+
 
 class EventListAPI(APIView):
     def get(self, request):
@@ -27,77 +29,38 @@ class EventListAPI(APIView):
         return Response(serializer.data)
 
 
-
 @login_required
 def dashboard(request):
+    if not (request.user.is_superuser or request.user.role == "SuperSystemAdmin"):
+        messages.error(request, "You do not have permission to access this page.")
+         # or another page if preferred
+
+    count = Superadmin.objects.filter(role="SuperAdmin").count()
     records = Record.objects.filter(created_by=request.user).order_by("-date")
-    return render(request, "myapp/dashboard.html", {"records": records})
+    return render(request, "myapp/dashboard.html", {"records": records, "superadmin_count": count})
 
 
 def login_view(request):
     if request.method == "POST":
-        username = request.POST.get("username")
+        email = request.POST.get("email")
         password = request.POST.get("password")
 
-        user = authenticate(request, username=username, password=password)
+        try:
+            superadmin_obj = Superadmin.objects.get(email=email)
+            user = authenticate(
+                request, username=superadmin_obj.username, password=password
+            )
+        except Superadmin.DoesNotExist:
+            user = None
+
         if user is not None:
             login(request, user)
             next_url = request.GET.get("next", "dashboard")
             return redirect(next_url)
         else:
-            messages.error(request, "Invalid username or password")
+            messages.error(request, "Invalid email or password")
 
     return render(request, "myapp/login.html")
-
-
-def signup_view(request):
-    if request.method == "POST":
-        first_name = request.POST.get("firstName", "").strip()
-        last_name = request.POST.get("lastName", "").strip()
-        username = request.POST.get("userName", "").strip()
-        email = request.POST.get("email", "").strip().lower()
-        password = request.POST.get("password")
-        confirm_password = request.POST.get("confirmPassword")
-        company_name = request.POST.get("companyName")
-        branch_name = request.POST.get("branchName")
-
-        # Basic Validation
-        if password != confirm_password:
-            messages.error(request, "Passwords do not match")
-            return render(request, "myapp/signup.html")
-
-        if len(password) < 8:
-            messages.error(request, "Password must be at least 8 characters")
-            return render(request, "myapp/signup.html")
-
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "An account with this username already exists")
-            return render(request, "myapp/signup.html")
-
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "Email already used!")
-            return render(request, "myapp/signup.html")
-
-        # Create user (do NOT overwrite User variable!)
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password,
-            first_name=first_name,
-            last_name=last_name,
-        )
-
-        # Create the associated CustomUser profile, linking to the user
-        CustomUser.objects.create(
-            user=user,
-            company_name=company_name,
-            branch_name=branch_name,
-        )
-
-        messages.success(request, "Account created successfully. Please log in.")
-        return redirect("login")
-
-    return render(request, "myapp/signup.html")
 
 
 def logout_view(request):
@@ -109,11 +72,9 @@ def forgotpassword_view(request):
     return render(request, "myapp/forgotpassword.html")
 
 
-# add record
 @login_required
 def records_view(request):
     records = Record.objects.filter(created_by=request.user).order_by("-date")
-    # print("records", records)
     return render(request, "myapp/records.html", {"records": records})
 
 
@@ -134,12 +95,9 @@ def add_records_view(request):
             status=status,
             created_by=request.user,
         )
+        return redirect("add-records")
 
-        return redirect("add-records")  # redirect after POST
-
-    # Only for GET request, fetch records and show page
     records = Record.objects.filter(created_by=request.user).order_by("-date")
-    # print("records", records)
     categories = Category.objects.all()
 
     return render(
@@ -155,20 +113,18 @@ def categories_view(request):
         category_name = request.POST.get("categoryName")
         category_date = request.POST.get("categoryDate")
 
-        # ✅ Only create if values exist
         if category_name and category_date:
             Category.objects.create(
                 category_name=category_name,
                 category_date=category_date,
                 created_by=request.user,
             )
-            return redirect("categories")  # ✅ redirect only after POST
-        # GET
-    Categories = Category.objects.filter(created_by=request.user).order_by(
+            return redirect("categories")
+
+    categories = Category.objects.filter(created_by=request.user).order_by(
         "-category_date"
     )
-    # ✅ Render template on GET or fallback
-    return render(request, "myapp/categories.html", {"categories": Categories})
+    return render(request, "myapp/categories.html", {"categories": categories})
 
 
 @login_required
@@ -176,31 +132,86 @@ def reports_view(request):
     categories = Category.objects.filter(created_by=request.user)
     records = Record.objects.filter(created_by=request.user).order_by("-date")
     return render(
-        request,
-        "myapp/reports.html",
-        {"categories": categories, "records": records}
+        request, "myapp/reports.html", {"categories": categories, "records": records}
     )
+
 
 @login_required
 def profile_view(request):
     return render(request, "myapp/profile.html")
 
+
 @login_required
 def settings_view(request):
-    return render(request , "myapp/settings.html")
+    return render(request, "myapp/settings.html")
+
 
 @login_required
 def analytics_view(request):
-    return render(request , "myapp/analytics.html")
+    return render(request, "myapp/analytics.html")
+
 
 @login_required
 def schedules_view(request):
     return render(request, "myapp/schedules.html")
+
+
+@login_required
+def business_view(request):
+    # Only allow Super System Admin (full control) to access
+    if not (request.user.is_superuser or request.user.role == "SuperSystemAdmin"):
+        messages.error(request, "You do not have permission to access this page.")
+        return redirect("dashboard")  # or another safe page
+
+    if request.method == "POST":
+        first_name = request.POST.get("adminFirstname")
+        last_name = request.POST.get("adminLastname")
+        email = request.POST.get("adminEmail")
+        password = request.POST.get("password")
+        company = request.POST.get("companyName")
+        phone = request.POST.get("phoneNumber")
+
+        if not all([first_name, last_name, email, password, company, phone]):
+            messages.error(request, "Please fill in all fields.")
+            return render(request, "myapp/business.html")
+
+        User = Superadmin  # your custom user model
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "User with this email already exists.")
+            return render(request, "myapp/business.html")
+
+        user = User.objects.create_user(
+            username=email,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            company=company,
+            phone_number=phone,
+            is_staff=True,
+            is_superuser=False,
+        )
+
+        try:
+            limited_group = Group.objects.get(name="LimitedAdmin")
+            user.groups.add(limited_group)
+        except Group.DoesNotExist:
+            pass
+
+        user.save()
+        messages.success(request, "Business admin user created successfully.")
+        return redirect("business")
+    # GET: Display all Superadmin users with role called SuperAdmin
+    users = Superadmin.objects.filter(role="SuperAdmin")
+
+    return render(request, "myapp/business.html", {"users": users})
+
+
 @login_required
 def export_records_pdf(request):
     records = Record.objects.filter(created_by=request.user).order_by("-date")
     template_path = "myapp/records_pdf.html"
-    context = {"records": records, "user": request.user}
+    context = {"records": records, "superadmin": request.user}
 
     template = get_template(template_path)
     html = template.render(context)

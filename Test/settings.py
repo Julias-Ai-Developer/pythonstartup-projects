@@ -99,6 +99,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+#trackingcustom superadmin
+AUTH_USER_MODEL = 'myapp.Superadmin'  # replace 'yourapp' with your actual app name
+
+
 # Internationalization settings
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 

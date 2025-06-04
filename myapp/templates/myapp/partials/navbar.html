@@ -1,47 +1,45 @@
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <!-- Header -->
-      <header class="header">
-        <div class="main-headtext">
-          
-         <h2>{{ request.user.customuser.company_name }}</h2>
+<!-- Main Content Area -->
+<main class="main-content">
+  <!-- Header -->
+  <header class="header">
+    <div class="main-headtext">
 
-         <span>{{request.user.customuser.branch_name}}</span>
+      <h2>{{ request.user.company }}</h2>
+      <span>{{ request.user.branch }}</span>
+    </div>
+    <div class="header-actions">
+      <i class="bi bi-bell" style="font-size: 1.25rem; cursor: pointer"></i>
+      <div class="user-profile" id="userProfile">
+        <div class="user-avatar">{{request.user.first_name|slice:":1"|upper}}{{request.user.last_name|slice:":1"|upper}}
         </div>
-        <div class="header-actions">
-          <i class="bi bi-bell" style="font-size: 1.25rem; cursor: pointer"></i>
-          <div class="user-profile" id="userProfile">
-            <div class="user-avatar">{{request.user.first_name|slice:":1"|upper}}{{request.user.last_name|slice:":1"|upper}}</div>
-            <div class="user-info">
-              <span class="user-name">{{request.user.username}}</span>
-              <span class="user-role">System Admin</span>
-            </div>
-            <i class="bi bi-chevron-down"></i>
-            <div class="dropdown-menu" id="dropdownMenu">
-              <div class="dropdown-item">
-                
-                <a href="{% url 'profile'%}"style="color:var(--text-dark);"><i class="bi bi-person"></i>
-                   <span>Profile</span>
-                </a>
-               
-              </div>
-              <div class="dropdown-item">
-                <i class="bi bi-gear"></i>
-                <span>Settings</span>
-              </div>
-              <div class="dropdown-item">
-                <i class="bi bi-question-circle"></i>
-                <span>Help</span>
-              </div>
-              <div class="dropdown-divider"></div>
-              <div class="dropdown-item">
-                <a href="{% url 'logout'%}"
-                   style="color:var(--text-dark);"><i class="bi bi-box-arrow-right"></i>
-                  <span>Logout</span>
-                </a>
-              </div>
-            </div>
+        <div class="user-info">
+          <span class="user-name">{{ request.user.first_name|lower }} {{ request.user.last_name|lower }}</span>
+          <span class="user-role">{{request.user.role}}</span>
+        </div>
+        <i class="bi bi-chevron-down"></i>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <div class="dropdown-item">
+
+            <a href="{% url 'profile'%}" style="color:var(--text-dark);"><i class="bi bi-person"></i>
+              <span>Profile</span>
+            </a>
+
+          </div>
+          <div class="dropdown-item">
+            <i class="bi bi-gear"></i>
+            <span>Settings</span>
+          </div>
+          <div class="dropdown-item">
+            <i class="bi bi-question-circle"></i>
+            <span>Help</span>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">
+            <a href="{% url 'logout'%}" style="color:var(--text-dark);"><i class="bi bi-box-arrow-right"></i>
+              <span>Logout</span>
+            </a>
           </div>
         </div>
-      </header>
-      
+      </div>
+    </div>
+  </header>

@@ -10,6 +10,7 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("reports/", views.reports_view, name="reports"),
     path("profile/", views.profile_view, name="profile"),
+    path("business/", views.business_view, name="business"),
     path("settings/", views.settings_view, name="settings"),
     path("analytics/", views.analytics_view, name="analytics"),
     path("schedules/", views.schedules_view, name="schedules"),
@@ -22,7 +23,7 @@ urlpatterns = [
     path("api/events/", EventListAPI.as_view(), name="event-list-api"),
     # Auth
     path("login/", views.login_view, name="login"),
-    path("signup/", views.signup_view, name="signup"),
+   
     path("logout/", views.logout_view, name="logout"),
     path("forgotpassword/", views.forgotpassword_view, name="forgotpassword"),
 ]
