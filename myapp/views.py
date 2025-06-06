@@ -207,6 +207,12 @@ def business_view(request):
     return render(request, "myapp/business.html", {"users": users})
 
 
+
+@login_required
+def business_users_view(request):
+    return render(request, "myapp/business-users.html")
+
+
 @login_required
 def export_records_pdf(request):
     records = Record.objects.filter(created_by=request.user).order_by("-date")
