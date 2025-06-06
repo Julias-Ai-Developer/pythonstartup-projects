@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings  # use this instead of importing User directly
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractUser
-
+from django.utils import timezone
 
 class Record(models.Model):
     title = models.CharField(max_length=100)
@@ -26,7 +26,7 @@ class Superadmin(AbstractUser):
     company = models.CharField(max_length=255, blank=True)
     role = models.CharField(max_length=50, default='SuperAdmin')
     branch = models.CharField(max_length=50, default='MainBranch')
-
+    date  = models.DateTimeField(auto_now_add=True)
     # rest of your model ...
 
     phone_number = models.CharField(max_length=20, blank=True, validators=[phone_regex])

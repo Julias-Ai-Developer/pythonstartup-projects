@@ -61,12 +61,12 @@ ROOT_URLCONF = 'Test.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'myapp/templates'],  # Add this line
+        'DIRS': [BASE_DIR / 'myapp/templates'],  # Template directory
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                'django.template.context_processors.request',  # ✅ Enables {{ request }} in templates
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -74,7 +74,16 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'Test.wsgi.application'
+
+#timezone
+
+# settings.py
+
+TIME_ZONE = 'Africa/Kampala'
+USE_TZ = True
+
 
 
 # Database configuration (using SQLite for development)
@@ -82,8 +91,12 @@ WSGI_APPLICATION = 'Test.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'recordlite_app',
+        'USER': 'root',
+        'PASSWORD': 'ceo@2005', # <--- This is the likely issue
+        'HOST': 'localhost',
+        'PORT': '3306', # <--- This is set to 3306
     }
 }
 

@@ -11,6 +11,7 @@ urlpatterns = [
     path("reports/", views.reports_view, name="reports"),
     path("profile/", views.profile_view, name="profile"),
     path("business/", views.business_view, name="business"),
+    path("business-users/", views.business_users_view, name="businessUsers"),
     path("settings/", views.settings_view, name="settings"),
     path("analytics/", views.analytics_view, name="analytics"),
     path("schedules/", views.schedules_view, name="schedules"),
