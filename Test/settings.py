@@ -80,9 +80,8 @@ WSGI_APPLICATION = 'Test.wsgi.application'
 #timezone
 
 # settings.py
-
-TIME_ZONE = 'Africa/Kampala'
 USE_TZ = True
+TIME_ZONE = 'Africa/Kampala'
 
 
 
@@ -121,7 +120,6 @@ AUTH_USER_MODEL = 'myapp.Superadmin'  # replace 'yourapp' with your actual app n
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -161,5 +159,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com'  # Replace with your email
-EMAIL_HOST_PASSWORD = 'your-app-password'  # Use App Password, NOT your email password!
+EMAIL_HOST_USER = 'muyambijulias@gmail.com'  # Replace with your email
+EMAIL_HOST_PASSWORD = 'ayml kaux kobx oxvu'  # Use App Password, NOT your email password!

@@ -8,12 +8,13 @@ class Record(models.Model):
     title = models.CharField(max_length=100)
     category = models.CharField(max_length=100)
     description = models.TextField()
-    date = models.DateField()
-    status = models.CharField(max_length=50)
+    updated_at= models.DateTimeField(default=timezone.now)  # or auto_now_add=True if preferred
+    deleted_at = models.BooleanField(default=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
+
 
 
 phone_regex = RegexValidator(
@@ -24,9 +25,9 @@ phone_regex = RegexValidator(
 
 class Superadmin(AbstractUser):
     company = models.CharField(max_length=255, blank=True)
-    role = models.CharField(max_length=50, default='SuperAdmin')
-    branch = models.CharField(max_length=50, default='MainBranch')
-    date  = models.DateTimeField(auto_now_add=True)
+    role = models.CharField(max_length=50, default="SuperAdmin")
+    branch = models.CharField(max_length=50, default="MainBranch")
+    date = models.DateTimeField(auto_now_add=True)
     # rest of your model ...
 
     phone_number = models.CharField(max_length=20, blank=True, validators=[phone_regex])
@@ -37,7 +38,8 @@ class Superadmin(AbstractUser):
 
 class Category(models.Model):
     category_name = models.CharField(max_length=100)
-    category_date = models.DateField()
+    deleted_at = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=timezone.now)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -53,6 +55,6 @@ class Event(models.Model):
     end = models.DateTimeField(null=True, blank=True)
     description = models.TextField(blank=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    
+
     def __str__(self):
         return self.title

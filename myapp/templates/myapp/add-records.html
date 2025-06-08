@@ -41,8 +41,9 @@
                     <select id="recordCategory" name="recordCategory" class="form-control" required>
                         <option value="">Select category</option>
                         {% for category in categories%}
-                        
+                        {% if category.status %}
                          <option value="{{category.category_name}}">{{category.category_name}}</option>
+                         {% endif %}
                          {%empty%}
                          {%endfor%}
                          
@@ -62,26 +63,7 @@
                 ></textarea>
             </div>
 
-            <div class="form-row">
-                <div class="form-group required">
-                    <label for="recordDate">Creation Date</label>
-                    <input 
-                        type="date" 
-                        id="recordDate" 
-                        name="recordDate"
-                        class="form-control"
-                        required
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="recordStatus">Status</label>
-                    <select id="recordStatus" name="recordStatus" class="form-control">
-                        <option value="active">Active</option>
-                        <option value="pending">Pending Review</option>
-                        <option value="archived">Archived</option>
-                    </select>
-                </div>
-            </div>
+          
 
            
 
