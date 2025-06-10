@@ -1,0 +1,567 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to RecordLite</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        color: #333;
+        min-height: 100vh;
+        padding: 20px 0;
+      }
+
+      .email-container {
+        max-width: 650px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .email-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
+        background-size: 200% 100%;
+        animation: shimmer 3s ease-in-out infinite;
+      }
+
+      @keyframes shimmer {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        animation: float 20s linear infinite;
+      }
+
+      @keyframes float {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+
+      .logo-section {
+        position: relative;
+        z-index: 2;
+        margin-bottom: 10px;
+      }
+
+      .logo-icon {
+        font-size: 48px;
+        margin-bottom: 15px;
+        display: inline-block;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .header .tagline {
+        margin: 10px 0 0 0;
+        font-size: 16px;
+        opacity: 0.95;
+        font-weight: 300;
+        position: relative;
+        z-index: 2;
+      }
+
+      .content {
+        padding: 50px 40px;
+        line-height: 1.7;
+        background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+      }
+
+      .greeting {
+        font-size: 20px;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        font-weight: 500;
+      }
+
+      .greeting i {
+        color: #667eea;
+        margin-right: 8px;
+      }
+
+      .company-info {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 25px;
+        border-radius: 15px;
+        margin: 30px 0;
+        border-left: 5px solid #667eea;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      }
+
+      .company-info::before {
+        content: '\F4C4';
+        font-family: 'bootstrap-icons';
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 24px;
+        color: #667eea;
+        opacity: 0.3;
+      }
+
+      .success-badge {
+        display: inline-flex;
+        align-items: center;
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .success-badge i {
+        margin-right: 6px;
+      }
+
+      .login-details {
+        background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+        padding: 30px;
+        border-radius: 15px;
+        margin: 30px 0;
+        border: 2px solid #e1bee7;
+        position: relative;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.1);
+      }
+
+      .login-details h3 {
+        margin-top: 0;
+        color: #4a148c;
+        font-size: 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+
+      .login-details h3 i {
+        margin-right: 10px;
+        font-size: 20px;
+      }
+
+      .credential-item {
+        margin: 20px 0;
+        display: flex;
+        align-items: center;
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .credential-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .credential-icon {
+        color: #667eea;
+        font-size: 18px;
+        margin-right: 15px;
+        min-width: 20px;
+      }
+
+      .credential-label {
+        font-weight: 600;
+        color: #495057;
+        min-width: 80px;
+        font-size: 14px;
+      }
+
+      .credential-value {
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 2px solid #e3f2fd;
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
+        font-size: 14px;
+        flex: 1;
+        margin-left: 15px;
+        font-weight: 500;
+        color: #2c3e50;
+        position: relative;
+        transition: border-color 0.2s ease;
+      }
+
+      .credential-value:hover {
+        border-color: #667eea;
+      }
+
+      .security-notice {
+        background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+        border: 2px solid #ffb74d;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 30px 0;
+        position: relative;
+        box-shadow: 0 4px 12px rgba(255, 183, 77, 0.2);
+      }
+
+      .security-notice .notice-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .security-notice .icon {
+        font-size: 20px;
+        margin-right: 10px;
+        color: #f57c00;
+      }
+
+      .security-notice strong {
+        color: #e65100;
+        font-size: 16px;
+      }
+
+      .cta-section {
+        text-align: center;
+        margin: 40px 0;
+      }
+
+      .cta-button {
+        display: inline-flex;
+        align-items: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        padding: 18px 35px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+      }
+
+      .cta-button:hover::before {
+        left: 100%;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        color: white;
+        text-decoration: none;
+      }
+
+      .cta-button i {
+        margin-right: 10px;
+        font-size: 18px;
+      }
+
+      .support-info {
+        background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e8 100%);
+        padding: 25px;
+        border-radius: 15px;
+        margin: 30px 0;
+        text-align: center;
+        border: 2px solid #c8e6c9;
+        position: relative;
+      }
+
+      .support-info::before {
+        content: '\F4F4';
+        font-family: 'bootstrap-icons';
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 24px;
+        color: #4caf50;
+        opacity: 0.3;
+      }
+
+      .support-info h4 {
+        color: #2e7d32;
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+
+      .support-info h4 i {
+        margin-right: 8px;
+        font-size: 18px;
+      }
+
+      .footer {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: #ecf0f1;
+        padding: 35px 40px;
+        text-align: center;
+        font-size: 14px;
+        position: relative;
+      }
+
+      .footer-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .footer .brand {
+        font-weight: 700;
+        color: #3498db;
+        font-size: 16px;
+      }
+
+      .footer-icons {
+        margin: 15px 0;
+      }
+
+      .footer-icons i {
+        color: #bdc3c7;
+        font-size: 20px;
+        margin: 0 10px;
+        transition: color 0.3s ease;
+      }
+
+      .footer-icons i:hover {
+        color: #3498db;
+      }
+
+      .divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #ddd, transparent);
+        margin: 30px 0;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 10px 0;
+        }
+
+        .email-container {
+          margin: 0 10px;
+          border-radius: 15px;
+        }
+
+        .content {
+          padding: 30px 20px;
+        }
+
+        .header {
+          padding: 30px 20px;
+        }
+
+        .header h1 {
+          font-size: 28px;
+        }
+
+        .logo-icon {
+          font-size: 40px;
+        }
+
+        .credential-item {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .credential-value {
+          margin-left: 0;
+          margin-top: 10px;
+          width: 100%;
+        }
+
+        .cta-button {
+          padding: 15px 25px;
+          font-size: 14px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="email-container">
+      <div class="header">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h1>RECORDLITE</h1>
+          <div class="tagline">
+            <i class="bi bi-database-gear"></i>
+            Advanced Record Management System
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="greeting">
+          <i class="bi bi-person-hearts"></i>
+          Welcome {{first_name}} {{last_name}},
+        </div>
+
+        <div class="success-badge">
+          <i class="bi bi-check-circle-fill"></i>
+          Registration Successful
+        </div>
+
+        <div class="company-info">
+          <strong>{{company}}</strong> has been successfully registered on
+          <strong>RECORDLITE</strong> - your comprehensive record management solution.
+          <br><br>
+          <small style="color: #666; display: flex; align-items: center;">
+            <i class="bi bi-calendar-check" style="margin-right: 6px; color: #667eea;"></i>
+            Account activated and ready to use
+          </small>
+        </div>
+
+        <div class="login-details">
+          <h3>
+            <i class="bi bi-key-fill"></i>
+            Your Secure Login Credentials
+          </h3>
+          
+          <div class="credential-item">
+            <i class="bi bi-envelope-fill credential-icon"></i>
+            <span class="credential-label">Email:</span>
+            <div class="credential-value">{{email}}</div>
+          </div>
+          
+          <div class="credential-item">
+            <i class="bi bi-lock-fill credential-icon"></i>
+            <span class="credential-label">Password:</span>
+            <div class="credential-value">{{password}}</div>
+          </div>
+        </div>
+
+        <div class="security-notice">
+          <div class="notice-header">
+            <i class="bi bi-exclamation-triangle-fill icon"></i>
+            <strong>Important Security Notice</strong>
+          </div>
+          <p style="margin: 0; color: #e65100;">
+            For your account security, please log in and change your password immediately. 
+            We also recommend enabling two-factor authentication in your account settings.
+          </p>
+        </div>
+
+        <div class="cta-section">
+          <a href="https://www.recordlite.kamatrustai.com" class="cta-button">
+            <i class="bi bi-box-arrow-in-right"></i>
+            Access Your Dashboard
+          </a>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="support-info">
+          <h4>
+            <i class="bi bi-headset"></i>
+            Need Assistance?
+          </h4>
+          <p style="margin: 5px 0; color: #2e7d32;">
+            Our support team is here to help you get started.<br>
+            <strong>Available 24/7</strong> for your convenience.
+          </p>
+          <div style="margin-top: 15px;">
+            <small style="color: #666;">
+              <i class="bi bi-telephone-fill" style="margin-right: 5px; color: #4caf50;"></i>
+              Contact Support | 
+              <i class="bi bi-chat-dots-fill" style="margin: 0 5px 0 10px; color: #4caf50;"></i>
+              Live Chat Available
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="footer-content">
+          <p style="margin: 0 0 10px 0;">
+            <strong>Best regards,</strong><br />
+            <strong>System Administrator</strong>
+          </p>
+          
+          <div class="footer-icons">
+            <i class="bi bi-shield-shaded"></i>
+            <i class="bi bi-server"></i>
+            <i class="bi bi-graph-up"></i>
+          </div>
+          
+          <p style="margin: 10px 0 0 0;">
+            <span class="brand">RecordLite</span> - Powered by 
+            <strong style="color: #e74c3c;">Kamatrust AI</strong>
+          </p>
+          
+          <small style="opacity: 0.8; display: block; margin-top: 15px;">
+            <i class="bi bi-c-circle" style="margin-right: 4px;"></i>
+            2025 &copy;Kamatrust AI. All rights reserved.
+          </small>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
