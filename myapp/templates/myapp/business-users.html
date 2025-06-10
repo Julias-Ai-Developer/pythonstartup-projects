@@ -1,0 +1,229 @@
+{% load static%}
+
+{% include 'myapp/partials/header.html' %}
+{% include 'myapp/partials/sidebar.html' %}
+<!-- Main Content Area -->
+{% include 'myapp/partials/navbar.html' %}
+
+
+<link rel="stylesheet" href="{% static 'css/style.css'%}">
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+
+  .groupbtn {
+    display: flex;
+    gap: 10px;
+    margin-left: 23.7em;
+  }
+
+  .groupbtn button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+
+  }
+
+  .save {
+    background: purple;
+  }
+
+  .reset {
+    background: #3b82f6;
+
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    display: block;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #666;
+    background: #fff;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: purple;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 15px;
+  }
+
+  .form-row .form-group {
+    flex: 1;
+  }
+</style>
+<!-- Dashboard Content -->
+<div class="main-content">
+
+  <!-- Recent Records Table -->
+  <div class="widget">
+    <div class="widget-header">
+      <h3 class="widget-title">All Users</h3>
+      <div class="widget-actions">
+        <button class="btn btn-primary" id="addRecordBtn">
+          <i class="bi bi-plus-circle" style="color: white;"></i> Add User
+        </button>
+      </div>
+    </div>
+    <div class="widget-body">
+      <div class="table-container">
+        <table id="recordsTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Company</th>
+              <th>Registered On</th>
+              <th>Registered By</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td>#{{ forloop.counter }}</td>
+              <td>{{ user.company }}</td>
+              <td>{{ user.date }}</td>
+              <td>{{ request.user.email }}</td>
+              <td>
+                <button class="action-btn-view">
+                  <i class="bi bi-eye" style="margin-right: 5px;"></i>View
+                </button>
+                <button class="action-btn-edit">
+                  <i class="bi bi-pencil-square" style="margin-right: 5px;"></i>Edit
+                </button>
+                <button class="action-btn-danger">
+                  <i class="bi bi-trash" style="margin-right: 5px;"></i>Delete
+                </button>
+              </td>
+            </tr>
+            {% empty %}
+           
+            {% endfor %}
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+</main>
+
+
+<div class="modal" id="addcategoryModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Add New User</h3>
+      <button class="modal-close" id="closeModal">&times;</button>
+    </div>
+    <div class="modal-body">
+
+
+
+
+      <form id="addBusinessForm" action="{% url 'businessUsers' %}" method="post">
+
+        {% csrf_token %} {% if messages %}
+        <ul style="color: red; font-size: 14px">
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="firstName">Admin First Name</label>
+            <input type="text" id="firstName" name="adminFirstname" class="form-input" placeholder="John" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="lastName">Admin Last Name</label>
+            <input type="text" id="lastName" class="form-input" placeholder="Doe" required name="adminLastname" />
+          </div>
+        </div>
+
+
+
+        <!-- companydescriptions -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="company">company</label>
+            <input type="text" id="company" class="form-input" placeholder="Enter Company" required
+              name="companyName" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phoneNumber">Phone Number</label>
+            <input type="text" id="phone" class="form-input" placeholder="enter phone number" required
+              name="phoneNumber" />
+
+
+          </div>
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label class="form-label" for="email">Admin Email Address</label>
+            <input type="email" id="email" class="form-input" placeholder="your-email@gmail.com" required
+              name="adminEmail" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" id="password" class="form-input" placeholder="Create a strong password" required
+              name="password" />
+            <div id="passwordStrength" class="password-strength"></div>
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class="groupbtn">
+
+          <button type="reset" class="reset">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset
+          </button>
+          <button type="submit" class="save" id="">
+            Save
+          </button>
+
+
+
+
+        </div>
+
+
+      </form>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+{% include 'myapp/partials/footer.html'%}

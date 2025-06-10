@@ -85,7 +85,25 @@
       </div>
       {% endif %}
 
+      {%if request.user.is_superadmin or request.user.role == "SuperSystemAdmin"%}
+      <div class="menu-item">
+        <i class="bi bi-folder"></i>
+        <span>Manage Users </span>
+        <i class="bi bi-chevron-down"></i>
+      </div>
+      <div class="submenu">
+        <div class="submenu-item active">
 
+          <a href="{% url 'businessUsers'%}">
+            <i class="bi bi-people"></i>
+            <span>Users</span>
+          </a>
+        </div>
+
+
+      </div>
+
+      {%endif%}
 
       <div class="menu-item">
 

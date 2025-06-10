@@ -9,98 +9,202 @@
 <link rel="stylesheet" href="{% static 'css/style.css'%}">
 <!-- Dashboard Content -->
 <div class="main-content">
-   
- <!-- Recent Records Table -->
-<div class="widget">
-  <div class="widget-header">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget-actions">
-      <button class="btn btn-primary" id="addRecordBtn">
-        <i class="bi bi-plus-circle" style="color: white;"></i> Add Record
-      </button>
-    </div>
-  </div>
-  <div class="widget-body">
-    <div class="table-container">
-      <table id="recordsTable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>category</th>
-            <th>created At</th>
-            
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for category in categories %}
-          <tr>
-            
-            <td>#{{forloop.counter}}</td> 
-            <td>{{category.category_name}}</td>
-            
-            <td>{{ category.category_date}}</td>
-            
-          <td>
-              <button class="action-btn-view"><i class="bi bi-eye" style="margin-right: 5px;"></i>view</button>
-              <button class="action-btn-edit"><i class="bi bi-pencil-square" style="margin-right: 5px;"> edit</i></button>
-              <button class="action-btn-danger"><i class="bi bi-trash" style="margin-right: 5px;"></i>delete</button>
-            </td>
-          </tr>
-          {% empty %}
-         
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
 
- 
-</div>
-
- </main>
-
- <!-- Add category Modal -->
-    <div class="modal" id="addcategoryModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Add New Category</h3>
-          <button class="modal-close" id="closeModal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <form class="form-container" action="{% url 'categories' %}" method="post">
-            {% csrf_token %}
-            <div class="form-row">
-              <div class="form-group">
-                <label for="categoryTitle">Category</label>
-                <input
-                  type="text"
-                  id="categoryName"
-                  name="categoryName"
-                  class="form-control"
-                  placeholder="Enter categoryName"
-                />
-              </div>
-             
-            </div>
-           
-            <div class="form-row">
-              <div class="form-group">
-                <label for="categoryDate">Creation Date</label>
-                <input type="date" id="categoryDate" name="categoryDate" class="form-control" />
-              </div>
-             
-            </div>
-            
-            <div class="form-actions">
-              <button type="button" class="btn btn-outline">Cancel</button>
-              <button type="submit" class="btn btn-primary">Save category</button>
-            </div>
-          </form>
-        </div>
+  <!-- Recent Records Table -->
+  <div class="widget">
+    <div class="widget-header">
+      <h3 class="widget-title">Categories</h3>
+      <div class="widget-actions">
+        <button class="btn btn-primary" id="addRecordBtn">
+          <i class="bi bi-plus-circle" style="color: white;"></i> Add Record
+        </button>
       </div>
     </div>
- 
+    <div class="widget-body">
+      <div class="table-container">
+        <table id="recordsTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>category</th>
+              <th>Last Updated At</th>
+
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for category in categories %}
+            <tr>
+
+              <td>#{{forloop.counter}}</td>
+              <td>{{category.category_name}}</td>
+
+              <td>{{ category.updated_at}}</td>
+
+              <td>
+                <button class="action-btn-edit" onclick="openEditModal('{{category.id}}','{{category.category_name}}')">
+                  <i class="bi bi-pencil-square"></i> Edit
+                </button>
+
+                <button class="action-btn-danger"
+                  onclick="openDeleteModal('{{category.id}}','{{category.category_name}}')">
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+
+            <!-- Edit Modal -->
+
+
+            <!-- Delete Modal -->
+
+            <div id="toaster" style="display:none;"></div>
+
+            {% empty %}
+
+            {% endfor %}
+            <div id="deleteModal" class="modal">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h3>🗑️ Confirm Delete</h3>
+                  <button class="modal-close" onclick="closeModalById('deleteModal')">&times;</button>
+                </div>
+                <form action="{% url 'delete_category' %}" method="post">
+
+                  <div class="modal-body">
+                    {% csrf_token %}
+
+                    <input type="hidden" id="DeleteCategoryId" name="id" class="form-control" />
+
+                    <p>Are you sure you want to delete the record "<strong id="deleteRecordName">Example
+                        Data</strong>"?</p>
+                    <p style="color: #dc3545; margin-top: 10px;">This action cannot be undone.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <!-- Cancel Button -->
+                    <button type="button" class="btn btn-secondary"
+                      onclick="closeModalById('deleteModal')">Cancel</button>
+
+                    <!-- Delete Button -->
+                    <button type="submit" class="btn btn-danger">Delete</button>
+
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div id="editModal" class="modal">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h3>✏️ Edit Record</h3>
+                  <button class="modal-close" onclick="closeModalById('editModal')">&times;</button>
+                </div>
+                <form action="{% url 'edit_category' %}" method="post">
+                  <div class="modal-body">
+                    {% csrf_token %}
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label for="categoryTitle">Category</label>
+                        <input type="hidden" id="EditCategoryId" name="id" class="form-control" />
+                        <input type="text" id="EditCategoryName" name="categoryName" class="form-control"
+                          placeholder="Enter categoryName" />
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closeModalById('editModal')">Cancel</button>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+</main>
+
+<!-- Add category Modal -->
+<div class="modal" id="addcategoryModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Add New Category</h3>
+      <button class="modal-close" id="closeModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form class="form-container" action="{% url 'categories' %}" method="post">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="form-group">
+            <label for="categoryTitle">Category</label>
+            <input type="text" id="categoryName" name="categoryName" class="form-control"
+              placeholder="Enter categoryName" />
+          </div>
+
+        </div>
+
+
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+
+
+  // Global modal functions (accessible from onclick attributes)
+  function openModal(id) {
+    document.getElementById(id)?.classList.add("active");
+  }
+
+  function closeModalById(id) {
+    document.getElementById(id)?.classList.remove("active");
+  }
+
+  function showToast(message, type = 'success') {
+    const toaster = document.getElementById("toaster");
+    if (toaster) {
+      toaster.textContent = message;
+      toaster.className = type;
+      toaster.style.display = "block";
+      setTimeout(() => {
+        toaster.style.display = "none";
+      }, 3000);
+    }
+  }
+
+  // Demo functions to open modals with sample data
+  function openViewModal() {
+    const record = records[0];
+    document.getElementById('viewRecordName').textContent = record.name;
+    document.getElementById('viewRecordDate').textContent = record.date;
+    document.getElementById('viewRecordDescription').textContent = record.description;
+    openModal('viewModal');
+  }
+
+  function openEditModal(id, name) {
+    document.getElementById('EditCategoryId').value = id;
+    document.getElementById('EditCategoryName').value = name;
+    openModal('editModal');
+  }
+
+  function openDeleteModal(id, name) {
+
+    document.getElementById('deleteRecordName').textContent = name;
+    document.getElementById('DeleteCategoryId').value = id;
+    openModal('deleteModal');
+  };
+</script>
 
 {% include 'myapp/partials/footer.html'%}
