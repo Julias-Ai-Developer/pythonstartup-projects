@@ -34,10 +34,9 @@ urlpatterns = [
     path("edit_category/", category_views.edit_category, name="edit_category"),
     path("delete_category/", category_views.delete_category, name="delete_category"),
 
-#chatbot
+#financial
 
-    # path('chatbot/ask/', views.chatbot_response, name='chatbot_response'),
-
+    path("financial/",views. financial_views, name="financial"),
 
 
 ]
