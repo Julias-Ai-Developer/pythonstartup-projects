@@ -41,7 +41,7 @@
                     <select id="recordCategory" name="recordCategory" class="form-control" required>
                         <option value="">Select category</option>
                         {% for category in categories%}
-                        {% if category.status %}
+                        {% if category.updated_at %}
                          <option value="{{category.category_name}}">{{category.category_name}}</option>
                          {% endif %}
                          {%empty%}
