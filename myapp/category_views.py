@@ -17,7 +17,7 @@ def categories(request):
 
               return redirect("categories")
         else:
-              categories = Category.objects.filter(deleted_at=1).order_by(
+              categories = Category.objects.filter(is_deleted=1).order_by(
               "-id"
               )
               return render(request, "myapp/categories.html", {"categories": categories})
@@ -57,7 +57,7 @@ def delete_category(request):
                   category_check = Category.objects.filter(id=id)
                   if category_check.count() > 0:
                             category = category_check.first()
-                            category.deleted_at = 0
+                            category.is_deleted = 0
                             category.save()
                   else:
                       pass

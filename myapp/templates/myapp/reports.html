@@ -46,7 +46,7 @@
             <select name="category" class="filter-select">
               <option value="" selected>All Categories</option>
               {% for category in categories %}
-              {% if category.status %}
+              {% if category.updated_at %}
               <option value="{{ category.category_name }}">{{ category.category_name }}</option>
               {% endif %}
               {% empty %}
@@ -88,7 +88,6 @@
               <th>Title</th>
               <th>Category</th>
               <th>Created</th>
-              <th>Status</th>
 
             </tr>
           </thead>
@@ -100,9 +99,7 @@
               <td>{{ record.title }}</td>
               <td>{{ record.category }}</td>
               <td>{{ record.updated_at|date:"Y-m-d" }}</td>
-              <td>
-                <span class="status-badge status-{{ record.status }}">{{ record.status }}</span>
-              </td>
+              
 
 
             </tr>
