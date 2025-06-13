@@ -1,0 +1,16 @@
+{"workbench.activityBar.iconClickBehavior": "focus",
+    "workbench.colorTheme": "Carbon Owl",
+    "workbench.iconTheme": "vs-seti",
+    "workbench.preferredDarkColorTheme": "Abyss",
+    "workbench.preferredHighContrastColorTheme": "Visual Studio Dark",
+    "editor.lineHeight": 30,
+    "editor.fontSize": 12,
+    "editor.fontFamily": "JetBrains Mono",
+    "files.autoSave": "onFocusChange",
+    "less.lint.fontFaceProperties": "ignore",
+    "less.lint.hexColorLength": "ignore",
+    "editor.formatOnSaveMode": "modificationsIfAvailable"
+
+    // "editor.formatOnSave": true,
+    // "editor.formatOnSaveTimeout": 1000,
+}
