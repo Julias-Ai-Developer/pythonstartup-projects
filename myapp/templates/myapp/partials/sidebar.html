@@ -4,110 +4,146 @@
     <div class="sidebar-header">
       <h1><i class="bi bi-database"></i> <span>RecordLite</span></h1>
     </div>
-    <nav class="sidebar-menu">
-      <div class="menu-item active">
 
-        <a href="{% url 'dashboard'%}">
+    <nav class="sidebar-menu">
+      <!-- Dashboard -->
+      <div class="menu-item active">
+        <a href="{% url 'dashboard' %}">
           <i class="bi bi-speedometer2"></i>
           <span>Dashboard</span>
         </a>
       </div>
+
+      <!-- Manage Records -->
       <div class="menu-item">
         <i class="bi bi-folder"></i>
-        <span> Manage Records</span>
+        <span>Categories </span>
         <i class="bi bi-chevron-down"></i>
       </div>
       <div class="submenu">
-        <div class="submenu-item active">
-
-          <a href="{% url 'records'%}">
+        <div class="submenu-item">
+          <a href="{% url 'categories' %}">
+            <i class="bi bi-tags"></i>
+            <span>Categories</span>
+          </a>
+        </div>
+      </div>
+        <!-- Personal Records -->
+      <div class="menu-item">
+        <i class="bi bi-currency-dollar"></i>
+        <span>Personal Records</span>
+        <i class="bi bi-chevron-down"></i>
+      </div>
+      <div class="submenu">
+        <div class="submenu-item">
+          <a href="{% url 'records' %}">
             <i class="bi bi-list-ul"></i>
             <span>All Records</span>
           </a>
         </div>
         <div class="submenu-item">
-
-          <a href="{% url 'add-records'%}">
+          <a href="{% url 'add-records' %}">
             <i class="bi bi-plus-circle"></i>
             <span>Add New</span>
           </a>
         </div>
-        <div class="submenu-item">
+      </div>
 
-          <a href="{% url 'categories' %}">
-            <i class="bi bi-tags"></i>
-            <span> categories</span>
+      <!-- Financial Records -->
+      <div class="menu-item">
+        <i class="bi bi-currency-dollar"></i>
+        <span>Financial Records</span>
+        <i class="bi bi-chevron-down"></i>
+      </div>
+      <div class="submenu">
+        <div class="submenu-item">
+          <a href="{% url 'financial' %}">
+            <i class="bi bi-list-ul"></i>
+            <span>All Records</span>
           </a>
         </div>
       </div>
-      <div class="menu-item">
 
-        <a href="{% url 'schedules'%}">
+
+
+    
+
+      <!-- Schedules -->
+      <div class="menu-item">
+        <a href="{% url 'schedules' %}">
           <i class="bi bi-people"></i>
           <span>Schedules</span>
         </a>
       </div>
-      <div class="menu-item">
 
-        <a href="{% url 'reports'%}">
+      <!-- Reports -->
+      <div class="menu-item">
+        <a href="{% url 'reports' %}">
           <i class="bi bi-file-earmark-text"></i>
           <span>Reports</span>
         </a>
       </div>
-      <div class="menu-item">
 
-        <a href="{% url 'analytics'%}">
+      <!-- Analytics -->
+      <div class="menu-item">
+        <a href="{% url 'analytics' %}">
           <i class="bi bi-graph-up"></i>
           <span>Analytics</span>
         </a>
       </div>
 
-
-
-
-
+      <!-- Manage Businesses -->
       {% if request.user.is_superuser or request.user.role == "SuperSystemAdmin" %}
       <div class="menu-item">
         <i class="bi bi-folder"></i>
-        <span>Manage Businesses </span>
+        <span>Manage Businesses</span>
         <i class="bi bi-chevron-down"></i>
       </div>
       <div class="submenu">
-        <div class="submenu-item active">
-
-          <a href="{% url 'business'%}">
+        <div class="submenu-item">
+          <a href="{% url 'business' %}">
             <i class="bi bi-people"></i>
             <span>Businesses</span>
           </a>
         </div>
-
-
       </div>
       {% endif %}
 
-      {%if request.user.is_superadmin or request.user.role == "SuperSystemAdmin"%}
+      <!-- Manage Users -->
+      {% if request.user.is_superadmin or request.user.role == "SuperSystemAdmin" %}
       <div class="menu-item">
-        <i class="bi bi-folder"></i>
-        <span>Manage Users </span>
+        <i class="bi bi-people"></i>
+        <span>Manage Users</span>
         <i class="bi bi-chevron-down"></i>
       </div>
       <div class="submenu">
-        <div class="submenu-item active">
-
-          <a href="{% url 'businessUsers'%}">
+        <div class="submenu-item">
+          <a href="{% url 'businessUsers' %}">
             <i class="bi bi-people"></i>
             <span>Users</span>
           </a>
         </div>
+      </div>
+      {% endif %}
 
-
+      <!-- License Management -->
+      <div class="menu-item">
+        <i class="bi bi-key"></i>
+        <span>License Management</span>
+        <i class="bi bi-chevron-down"></i>
+      </div>
+      <div class="submenu">
+        <div class="submenu-item">
+          <a href="{% url 'businessUsers' %}">
+            <i class="bi bi-people"></i>
+            <span>Licenses</span>
+          </a>
+        </div>
       </div>
 
-      {%endif%}
-
+      <!-- Settings -->
       <div class="menu-item">
-
-        <a href="{% url 'settings'%}">
+        <a href="{% url 'settings' %}">
           <i class="bi bi-gear"></i>
           <span>Settings</span>
         </a>
