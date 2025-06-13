@@ -4,17 +4,19 @@ from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
+
 class Record(models.Model):
     title = models.CharField(max_length=100)
     category = models.CharField(max_length=100)
     description = models.TextField()
-    updated_at= models.DateTimeField(default=timezone.now)  # or auto_now_add=True if preferred
-    deleted_at = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(
+        default=timezone.now
+    )  # or auto_now_add=True if preferred
+    is_deleted = models.BooleanField(default=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
-
 
 
 phone_regex = RegexValidator(
@@ -38,7 +40,7 @@ class Superadmin(AbstractUser):
 
 class Category(models.Model):
     category_name = models.CharField(max_length=100)
-    deleted_at = models.BooleanField(default=True)
+    is_deleted = models.BooleanField(default=True)
     updated_at = models.DateTimeField(auto_now=timezone.now)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -58,3 +60,6 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+   
+
